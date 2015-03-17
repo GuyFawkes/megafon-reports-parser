@@ -1,12 +1,17 @@
 <?php
 
+if (empty($argv[1])) {
+    echo "Передайте имя файла для анализа\n";
+    exit(1);
+}
+
 require_once 'Parser.php';
 require_once 'Utils.php';
 
 mb_internal_encoding('UTF-8');
 
 $p = new Parser();
-$d = $p->getData('/home/guyfawkes/work/megafon/all.html');
+$d = $p->getData($argv[1]);
 $u = new Utils();
 
 
