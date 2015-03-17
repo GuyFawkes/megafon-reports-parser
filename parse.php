@@ -22,7 +22,7 @@ foreach ($d as $type => $items) {
         $unit = $item['unit'];
         $size = $item['size'];
         list($unit, $size) = $u->convertData($unit, $size);
-        if (!$item['cost']) {
+        if (!$item['size']) {
             continue;
         }
         if (!isset($costs[$date][$unit])) {
