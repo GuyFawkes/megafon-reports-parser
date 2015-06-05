@@ -12,20 +12,35 @@ class Utils
 
     public function convertUnit($n, $unit)
     {
+        $types = [
+            'шт.' => 'штука',
+            'мб.' => 'мегабайт'
+        ];
         $forms = [
             'штука'    => ['штуки', 'штук'],
             'мегабайт' => ['мегабайта', 'мегабайт'],
             'минута'   => ['минуты', 'минут'],
             'рубль'    => ['рубля', 'рублей']
         ];
-        $forms = $forms[$unit];
-        array_unshift($forms, $unit);
-        return $this->pluralForm($n, $forms);
+        if (isset($types[$unit])) {
+            $unit = $types[$unit];
+        }
+        if (isset($forms[$unit])) {
+            $forms = $forms[$unit];
+            array_unshift($forms, $unit);
+            return $this->pluralForm($n, $forms);
+        }
+        return $unit;
     }
 
     public function convertData($unit, $size)
     {
         $c = ['Килобайт' => ['title' => 'Мегабайт', 'div' => 1024], 'Секунда' => ['title' => 'Минута', 'div' => 60]];
+        if (is_string($size) && strpos($size, ':') !== false) {
+            $timeParts = explode(':', $size, 2);
+            $size = (int) $timeParts[0] + (int) $timeParts[1] / 60;
+            $unit = 'Минута';
+        }
         if (isset($c[$unit])) {
             if (!empty($c[$unit]['div'])) {
                 $size /= $c[$unit]['div'];

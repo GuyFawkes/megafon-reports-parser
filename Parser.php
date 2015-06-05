@@ -26,7 +26,7 @@ class Parser
             $data[$temp[5]][] = [
                 'date' => $temp[0],
                 'time' => sprintf('%s %s', $temp[0], $temp[1]),
-                'size' => (int) $temp[3],
+                'size' => is_numeric($temp[3]) ? (int) $temp[3] : $temp[3],
                 'unit' => $temp[4],
                 'cost' => (float)$temp[7]
             ];
