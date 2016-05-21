@@ -14,7 +14,6 @@ $p = new Parser();
 $d = $p->getData($argv[1]);
 $u = new Utils();
 
-
 foreach ($d as $type => $items) {
     $costs = [];
     foreach ($items as $item) {
@@ -39,7 +38,7 @@ foreach ($d as $type => $items) {
         foreach ($costs as $date => $summary) {
             printf("  %s\n", $date);
             foreach ($summary as $costType => $costInfo) {
-                if (is_float($costInfo['size'])) {
+                if ((int) $costInfo['size'] != $costInfo['size']) {
                     $vType = '%.2f';
                 } else {
                     $vType = '%d';

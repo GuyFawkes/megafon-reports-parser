@@ -5,6 +5,9 @@ class Utils
 {
     private function pluralForm($n, $forms)
     {
+        if ((int) $n != $n) {
+            return $forms[1];
+        }
         return $n % 10 == 1 && $n % 100 != 11 ?
             $forms[0] :
             ($n % 10 >= 2 && $n % 10 <= 4 && ($n % 100 < 10 || $n % 100 >= 20) ? $forms[1] : $forms[2]);
@@ -17,8 +20,10 @@ class Utils
             'мб.' => 'мегабайт'
         ];
         $forms = [
+            'шт.'      => ['штуки', 'штук'],
             'штука'    => ['штуки', 'штук'],
             'мегабайт' => ['мегабайта', 'мегабайт'],
+            'мб.'      => ['мегабайта', 'мегабайт'],
             'минута'   => ['минуты', 'минут'],
             'рубль'    => ['рубля', 'рублей']
         ];
@@ -48,6 +53,13 @@ class Utils
                 $size *= $c[$unit]['mul'];
             }
             $unit = $c[$unit]['title'];
+        }
+        if (is_numeric($size)) {
+            $size = (float) $size;
+        } else {
+            $time = explode(':', $size);
+            $size = (int) $time[0] + (int) $time[1] / 60;
+            $unit = 'минута';
         }
         $unit = mb_strtolower($unit);
         return [$unit, $size];
